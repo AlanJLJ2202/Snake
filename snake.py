@@ -9,7 +9,7 @@ posponer = 0.1
 wn = turtle.Screen()
 wn.title("Juego de Alan")
 wn.bgcolor("black")
-wn.setup(width = 600, height = 600)
+wn.setup(width = 400, height = 400)
 wn.tracer(0)
 
 #txtCorreoCabeza serpiente
@@ -30,6 +30,13 @@ cabeza.color("green")
 cabeza.penup()
 cabeza.goto(0,0)
 cabeza.direction = "stop"
+
+
+
+#CuerpoSerpiente
+
+Segmento = []
+
 
 
 #Funciones
@@ -72,14 +79,31 @@ wn.onkeypress(izquierda, "Right")
 
 while True:
 	wn.update()
-	mov()
-	if comida.distance(cabeza) < 20:
-			x = random.randint(-280,280)
-			y = random.randint(-280,280)
-			comida.goto(x,y)
-			cabeza.color("Yellow")	
-			
-	else:
-			cabeza.color("Blue")		
-    
+	
+	if cabeza.distance(comida) < 20:
+		x = random.randint(-280,280)
+		y = random.randint(-280,280)
+		comida.goto(x,y)
+
+		Nuevo = turtle.Turtle()
+		Nuevo.speed(0)
+		Nuevo.shape("square")
+		Nuevo.color("green")
+		Nuevo.penup()
+		Segmento.append(Nuevo)
+
+		#Intenta seguirme
+
+	TotalSeg = len(Segmento)
+	for index in range(TotalSeg -1,0,-1):
+		x = Segmento[index - 1].xcor()
+		y = Segmento[index - 1].ycor()
+		Segmento[index].goto(x,y)
+
+	if TotalSeg > 0:
+		x = cabeza.xcor()
+		y = cabeza.ycor()
+		Segmento[0].goto(x,y)
+		
+	mov()					
 	time.sleep(posponer)
